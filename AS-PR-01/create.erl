@@ -1,12 +1,18 @@
 -module(create).
 -export([create/1,reverse_create/1]).
 
-create(0)->
-    [];
-create(N)->
-    create(N-1) ++ [N].
+create(N) -> create(N,[]).
 
-reverse_create(0)->
-    [];
-reverse_create(N)->
-    [N] ++ reverse_create(N-1).
+create(0,R)->
+    R;
+create(N,R)->
+    create(N-1, [N |R]).
+
+reverse_create(N)-> reverse_create(N,[]).
+
+reverse_create(0,R)->
+    R;
+reverse_create(N,R)->
+    [N|reverse_create(N-1,R)].
+
+
