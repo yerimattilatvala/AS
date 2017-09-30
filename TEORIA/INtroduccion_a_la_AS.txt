@@ -1,0 +1,149 @@
+Microsoft-Introduccion a la arqitectura software
+
+
+-CAMPOS DE LA ARQUITECTURA SOFTWARE
+
+-AS es hoy en día un conjunto inmenso y heterogéneo de áreas de investigación teórica
+y de formulación práctica.
+
+-David Garlan y Dwayne Perry :
+En su introducción al volumen de abril de 1995 de IEEE Transactions on Software Engineering dedicado a la
+AS, en el cual se delinean las áreas de investigación más promisorias, enumeran las
+siguientes:
+-Lenguajes de descripción de arquitecturas
+-Fundamentos formales de la AS (bases matemáticas, caracterizaciones formales de
+    propiedades extra-funcionales tales como mantenibilidad, teorías de la interconexión,
+    etcétera).
+-Técnicas de análisis arquitectónicas
+-Métodos de desarrollo basados en arquitectura
+-Recuperación y reutilización de arquitectura
+-Codificación y guía arquitectónica
+-Herramientas y ambientes de diseño arquitectónico
+-Estudios de casos 
+
+-Para Clements y Northrop es el criterio de reusabilidad el specto que más hace justificar
+la AS. El objetivo es proporcionar un almacén estructurado de este tipo de información reutilizable
+de diseño de alto nivel propio de una familia.  De tal manera, las decisiones de alto nivel inherentes
+a cada miembro de una familia de programas no necesitan ser re-inventadas, re-validadas y re-descriptas.
+Un razonamiento arquitectónicoes además un argumento sobre las cuestiones estructurales de un sistema.
+
+Paul Clements [Cle96b] define cinco temas fundamentales en torno de los cuales se
+agrupa la disciplina:
+• Diseño o selección de la arquitectura: Cómo crear o seleccionar una arquitectura en
+base de requerimientos funcionales, de performance o de calidad.
+• Representación de la arquitectura: Cómo comunicar una arquitectura. Este
+problema se ha manifestado como el problema de la representación de arquitecturas
+utilizando recursos lingüísticos, pero el problema también incluye la selección del
+conjunto de información a ser comunicada.
+• Evaluación y análisis de la arquitectura: Cómo analizar una arquitectura para
+predecir cualidades del sistema en que se manifiesta. Un problema semejante es cómo
+comparar y escoger entre diversas arquitecturas en competencia.
+• Desarrollo y evolución basados en arquitectura: Cómo construir y mantener un
+sistema dada una representación de la cual se cree que es la arquitectura que resolverá
+el problema correspondiente. 
+25
+• Recuperación de la arquitectura: Cómo hacer que un sistema legacy evolucione
+cuando los cambios afectan su estructura; para los sistemas de los que se carezca de
+documentación confiable, esto involucra primero una “arqueología arquitectónica”
+que extraiga su arquitectura.
+
+Mary Shaw [Shaw01] considera que en el 2001 los campos más promisorios de la AS
+siguen teniendo que ver con el tratamiento sistemático de los estilos, el desarrollo de
+lenguajes de descripción arquitectónica, la formulación de metodologías y (ahora) el
+trabajo con patrones de diseño.Se requieren todavía modelos precisos que permitan
+razonar sobre las propiedades de una arquitectura y verificar su consistencia y
+completitud, así como la automatización del proceso de análisis, diseño y síntesis.
+
+Un campo que no figura en estas listas pero sobre el cual se está trabajando intensamente
+es en el de la coordinación de los ADLs que sobrevivan con UML 2.0 por un lado y con
+XML por el otro. Ningún lenguaje de descripción arquitectónica en el futuro próximo
+(excepto los que tengan un nicho técnico muy particular) será viable si no satisface esos
+dos requisitos.
+
+-PROBLEMAS ABIERTOS EN LA AS
+
+ - la definición original del proyecto, formulada en círculos académicos, guarda poca relación con la imagen 
+ que se tiene de la AS en las prácticas de la industria
+ -Vale la pena revisar el inventario de aspectos negativos elaborada por Clements y
+Northrop:
+-Los abogados de la distintas posturas traen sus sesgos consigo. En efecto,
+    mientras las definiciones propuestas para la AS coinciden en su núcleo, difieren
+    seriamente en los bordes. Algunos autores requieren que la arquitectura incluya
+    racionalización, otros piden más bien pasos para el proceso de construcción.
+    Algunos exigen que se identifique la funcionalidad de los componentes, otros
+    alegan que una simple topología es suficiente. En la lectura de los textos de AS se
+    torna esencial entonces conocer la motivación de sus responsables.
+
+-El estudio de la AS está siguiendo a la práctica, no liderándola. El estudio de
+    la AS ha evolucionado de la observación de los principios de diseño y las
+    acciones que toman los diseñadores cuando trabajan en sistemas de la vida real.
+    La AS es un intento de abstraer los rasgos comunes inherentes al diseño de
+    sistemas, y como tal debe dar cuenta de un amplio rango de actividades,
+    conceptos, métodos, estrategias y resultados. Lo que en realidad sucede es que la
+    AS se redefine constantemente en función de lo que hacen los programadores.
+
+-El estudio es sumamente nuevo. el campo de la AS es realmente muy nuevo, según puede juzgarse de 
+    la reciente avalancha de libros, conferencias, talleres y literatura consagrado a ella.
+
+-Las fundamentaciones han sido imprecisas. El campo se ha destacado por la
+    proliferación de términos inciertos.
+
+-El término se ha usado en exceso. El significado de la palabra “arquitectura” en
+    su relación con la ingeniería de software se ha ido diluyendo simplemente porque
+    parece estar de moda. A menudo la palabra “arquitectura” se usa de
+    maneras inapropiadas .
+
+- Taylor y Medvidovic : . Les preocupaba también que la AS terminara confundiéndose
+    con los ADLs y con el diseño.
+    Las razones son numerosas. La arquitectura es aún en gran medida una noción académica, y muy poca de
+    la tecnología resultante ha sido transferida a la industria y cuando se lo ha hecho no se lo
+    ha comunicado bien. La concentración en la investigación ha  sido también mal comprendida. Mientras
+    tales errores ganen terreno, surge el peligro de que los beneficios concretos y los resultados positivos 
+    de la investigación arquitectónica sufran las consecuencias.
+-Un problema que habría que tratar sistemáticamente es la discrepancia en las definiciones
+de AS que prevalecen .
+
+RELEVANCIA DE LA ARQUITECTURA SOFTWARE
+
+La AS ha resultado instrumentalen un número respetable de escenarios reduciendo costos, evitando errores, encontrando
+fallas, implementando sistemas de misión crítica. Cada uno de los documentos que
+describen lenguajes de descripción arquitectónica, por ejemplo, subraya su utilización
+exitosa en proyectos de gran envergadura requeridos por organizaciones de gobierno o
+por grandes empresas.
+
+-sintetizaremos las virtudes de la AS articulando las opiniones convergentes
+de los expertos [CN96] [Gar00]:
+
+1. Comunicación mutua. La AS representa un alto nivel de abstracción común que la
+mayoría de los participantes que pueden usar como base para crear
+entendimiento mutuo, formar consenso y comunicarse entre sí. 
+
+2. Decisiones tempranas de diseño. La AS representa la encarnación de las decisiones de
+diseño más tempranas sobre un sistema, y esos vínculos tempranos tienen un peso
+fuera de toda proporción en su gravedad individual con respecto al desarrollo restante 
+del sistema, su servicio en el despliegue y su vida de mantenimiento.
+
+3. Restricciones constructivas. Una descripción arquitectónica  indica los componentes y las 
+dependencias entre ellos. 
+
+4. Reutilización, o abstracción transferible de un sistema. La AS encarna un modelo
+relativamente pequeño, intelectualmente tratable, de la forma en que un sistema se
+estructura y sus componentes se entienden entre sí; este modelo es transferible a
+través de sistemas; en particular, se puede aplicar a otros sistemas que exhiben
+requerimientos parecidos y puede promover reutilización en gran escala. El diseño
+arquitectónico soporta reutilización de grandes componentes o incluso de frameworks
+en el que se pueden integrar componentes.
+
+5. Evolución. La AS puede exponer las dimensiones a lo largo de las cuales puede
+esperarse que evolucione un sistema.
+
+6. Análisis. Las descripciones arquitectónicas aportan nuevas oportunidades para el
+análisis, incluyendo verificaciones de consistencia del sistema, conformidad con las
+restricciones impuestas por un estilo, conformidad con atributos de calidad, análisis
+de dependencias y análisis específicos de dominio y negocios.
+
+7. Administración. La experiencia demuestra que los proyectos exitosos consideran una
+arquitectura viable como un logro clave del proceso de desarrollo industrial. La
+evaluación crítica de una arquitectura conduce típicamente a una comprensión más
+clara de los requerimientos, las estrategias de implementación y los riegos
+potenciales.

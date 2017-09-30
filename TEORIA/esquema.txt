@@ -1,0 +1,200 @@
+El modelo de la AS consiste en :
+    -Elementos(datos o elementos de conexion)
+    -Formas(relaciones entre los elementos)
+    -Razonamiento(la base para la arquitectura en terminos de limitaciones del sistema
+                    que derivan de los requisitos del sistema)
+
+
+Investigacion sobre el diseño software :
+    -Gran atencion decada de los 70
+    -Surge debido a los problemas de desarrollos de sistemas software a gran escala
+    .Premisa : Diseño separado de la implementacion, requiriendo anotaciones especiales
+                tecnicas y herramientas -> resultado : herramientas CASE
+
+Decada de los 80: 
+    -Se centra en integracion de diseños -> Notaciones y tecnicas pasa DS son absorvidas por los lenguajes de implementacion -> CREAN CONFUSION
+        .Proceso de diseño 
+    -Avances en las tecnicas para describir y analizar sistemas software
+    
+Decada de los 90:
+    -Decada de la arquitectura software
+    -arquitectura y diseño separados
+    -Beneficios que esperamos obtener de la arquitectura software:
+        -arquitectura como marco para satisfacer los requisitos
+        -arquitectura como base tecnica de diseño y base de gestion para la estimacion del coste y gestion del Proceso
+        -arquitectura como base efectiva para la reutilizacion
+        -arquitectura como base para la dependecia y el analisis consistente
+
+
+Intuicion de la AS :
+    -diferentes tipos de arquitecturas
+    -las arquitecturas hardware y de red son las arquitecturas clasicas y fuente de ideas
+    - AS = arquitectura de un edificio
+
+arquitectura hardware:
+    -varios enfoques para la arquitectura hardware en funcion del hardware que enfatiza
+    -caracteristicas importantes de la arquitectura hardware dentro de la consideracion de la AS:
+        -numero de elementos de diseño es pequeño
+        -escalabilidad se logra replicando
+    En la AS hai un numero alto de elementos de diseño y la escalabilidad 
+    se logra añadiendo elementos de diseño distintos.
+
+arquitectura de red:
+    -Las arquitecturas de red se consiguen abstrayendo
+    elementos de diseño de una red en nodos y conexiones,
+    y nombrando los tipos de relaciones que
+    estos dos elementos tienen entre sí.
+    
+arquitectura software:
+    -campo de la arquitectura clasica proporciona puntos de vista interesantes a la arquitectura software
+        -multiples vistas
+        -estilos arquitectonicos
+        -estilo e ingieneria
+        -estilo y materiales
+    
+    -analogamente con la arquitectura clasica, la AS tambien necesita 
+     varios puntos de vista -> solo se usa uno = la implementacion
+    
+    -La noción de estilo arquitectónico es particularmente útil
+    desde los puntos descriptivos y prescriptivos de la vista.
+    
+    -Descriptivamente, el estilo arquitectónico define una particular
+    codificación de elementos de diseño y acuerdos formales. Prescriptivamente, el estilo limita los tipos de 
+    elementos de diseño y sus arreglos formales. Es decir, un
+    el estilo arquitectónico limita tanto los elementos de diseño
+    y las relaciones formales entre los elementos de diseño.
+
+    -la relacion entre los principios de ingieneria y estilo arquitectonico 
+     son importantes.
+    
+    -la relacion entre los materiales y el estilo arquitectonico es
+     el mas importante,ya que las propiedades de los materiales 
+     definen un estilo particular.
+
+    -Los aspectos materiales de los elementos de diseño proporcionan las 
+    bases estéticas y de ingeniería para una arquitectura. De nuevo, esta relación es de
+    importancia en la arquitectura de software.
+    Por lo tanto, establecemos algunas ideas fundamentales sobre la 
+    arquitectura de software
+        -se necesitan multiples puntos de vista para enfatizar y comprender
+        aspectos de la arquitectura; 
+        -los estilos son una forma importante de codificación que puede utilizarse
+        tanto descriptiva como prescriptivamente; 
+        -principios de ingeniería y propiedades materiales son fundamentales
+         en el desarrollo y apoyo de una arquitectura y estilo arquitectónico.
+
+-Contexto de la arquitectura:
+    -la arquitectura carateriza a un producto software
+    -el producto software se carateriza por las cosas que son importantes 
+     en cada una de sus partes(tipo de entidades,relaciones entre ellas, tipos de criterios
+     y evaluacion de decisiones ) :
+        -requisitos -> definida po la informacion y procesado que necesita el usuario
+        -arquitectura -> definida por elementos arquitecturales, sus interacciones,sus limitaciones
+                        que proporcionan un marco que satisface los requisitos y son la base del diseño
+        -diseño ->algoritmos,modulos del sistema,tipos de datos,etc que soporta la arquitectura
+        -implementacion -> la representacion que satisface todo lo anterior
+
+    -cada parte de un producto software en realidad involucra un continuo de decisiones
+     de eleccion del  modelo de las tranformaciones y las representaciones.
+
+-Motivacion de las especificaciones de la arquitectura:
+
+Hay una serie de factores que contribuyen a la
+alto costo del software. Dos factores importantes son la evolucion y la personalización.
+ En la práctica, los requisitos no son tan "puros", ya que tienen
+restricciones en la arquitectura de un sistema, limitaciones
+el diseño del sistema, e incluso las limitaciones en la implementación.
+Una propiedad que con frecuencia acompaña a la evolución
+es una creciente fragilidad del sistema. Esto se debe en parte a dos
+problemas: erosión arquitectónica yla deriva de arquitectura
+. La erosión arquitectónica se debe a violaciones de la arquitectura.
+Estas violaciones a menudo conducen a un
+problemas del sistema y contribuir al aumento de la
+fragilidad de un sistema | por ejemplo, quitar la carga
+a menudo conduce a resultados desastrosos.La deriva de la arquitectura
+se debe a la insensibilidad de la arquitectura.
+Esta insensibilidad conduce más a inadaptabilidad que a
+los desastres y da lugar a una falta de coherencia y claridad
+de forma.
+La personalización es un factor importante en la arquitectura del software,
+no por los problemas que provoca, sino
+debido a la falta de madurez arquitectónica que indica.
+En la construcción de sistemas de software, todavía estamos en la etapa de 
+recrear cada elemento de diseño para cada nueva arquitectura. 
+Todavía no hemos llegado al escenario
+donde tenemos un conjunto estándar de estilos arquitectónicos
+con los elementos de diseño que lo acompañan .
+Cada sistema es, en esencia, una nueva arquitectura,
+un nuevo estilo arquitectónico. La presencia de una personalización ubicua indica que existe una
+necesidad de codificación,es decir, hay una necesidad de
+plantillas arquitectónicas para varios estilos arquitectónicos.
+Para las partes estándar de un sistema en un estilo particular,
+el arquitecto puede seleccionar de un conjunto de elementos bien conocidos y comprendidos y utilizarlos de manera apropiada
+a la arquitectura deseada. Este uso de plantillas estándar
+para los elementos arquitectónicos luego libera al arquitecto para 
+concentrarse en aquellos elementos donde la personalización es crucial.
+
+Dada una caracterizacion de la arquitectura y una motivacion de los problemas,
+hai muchas cosas que podemos hacer con la especificacion de la arquitectua:
+    -Prescribir las restricciones arquitectónicas al nivel deseado, es decir, indicar la restricción deseada
+    o permisividad, determinan el nivel deseado de generalidad o particularidad, definen lo que es necesidad y lo que es lujo,
+     y señalan el grado de relatividad y absolutismo. Queremos un medio
+    apoyado en el  principio de menor limitación
+    capaz de expresar sólo aquellas restricciones en la arquitectura
+    que son necesarios en la arquitectura
+    nivel de la descripción del sistema. Este es un importante desvío de la práctica actual que, en lugar de especificar las restricciones,
+     suministra soluciones específicas que encarnan las restricciones deseadas.
+    
+    -Estética aparte de la ingeniería,es decir, indicar  lo que es \ carga "de lo que es \ decoración".
+    Esta separación nos permite evitar los tipos de cambios que resultan en la erosión arquitectónica.
+    
+    -Expresar distintos aspectos de la arquitectura en una manera adecuada,es decir, 
+    describir partes diferentes de la arquitectura en una vista apropiada.
+    
+    -Realizar análisis de dependencia y coherencia, es decir, determinar las interdependencias entre
+    arquitectura, requisitos y diseño; determinar las interdependencias entre varias partes de la arquitectura;
+    y determinar la consistencia, o la falta  de ella, entre estilos arquitectónicos, entre estilos y arquitectura,
+     y entre elementos arquitectónicos.
+
+-Modelo 
+    -Por analogia la arquitectura de un edificio proporciona 
+    el modelo de AS-> AS={elementos,forma y razonamiento}
+    -La AS ES UN conjunto de elementos arquitecturales que tienen una forma particular
+     Se distinguen 3 clases : 
+        -elementos de procesado (transforman los siguientes)
+        -elementos de datos(informacion que sera transformada)
+        -elementos de conexion(pueden ser cualquiera de los anteriores y unen todos los elementos de la arquitectura)
+         Estos ultimos son los mas importantes pues porque nos permiten diferenciar el tipo de arquitectura.
+    -Las formas son -> 
+        -Una poderacion de las propiedades que indica dos cosas:
+            1ª->importancia de la propiedad en la relacion (para que el arquitecto sepa distinguir entre los aspectos foramles)
+            2ª->necesidad de elegir una alternativa entre varias que satisfaga la implementacion de la arquitectura
+        -Relaciones que limitan los elementos arquitectonicos:
+            Limitan como los diferentes elementos interetuan entre ellos y como estan organizados 
+            respecto a cada tipo de arquitectura.
+    Al igual que con las propiedades, las relaciones definen las limitaciones mínimas deseadas,
+    a menos que se indique lo contrario. 
+
+    -Una parte subyacente, pero integral, de una arquitectura es la razón de ser de las diversas opciones hechas para definir una arquitectura. 
+    El razonamiento capta la motivación para la elección del estilo arquitectónico, la elección de los elementos y la forma. En la arquitectura
+     del edificio, la lógica explica la estética filosófica subyacente que motiva al arquitecto. En la arquitectura de software, la razón en
+     su lugar explica la satisfacción de las restricciones del sistema. Estas limitaciones están determinadas por consideraciones
+      que van desde aspectos funcionales básicos hasta diversos aspectos no funcionales como la economía, el rendimiento y la fiabilidad.
+
+-Estilo de arquitectura:
+Si la arquitectura es un arreglo formal de elementos arquitectónicos, entonces el estilo arquitectónico es aquél que
+ abstrae elementos y aspectos formales de varias arquitecturas específicas. Un estilo arquitectónico es menos limitado 
+ y menos completo que una arquitectura específica. Por ejemplo, podríamos hablar de un estilo distribuido o de un estilo multiproceso.
+En estos casos, nos concentramos solamente en ciertos aspectos de una arquitectura específica: relaciones entre elementos de 
+procesamiento y procesadores de hardware, y restricciones sobre los elementos, respectivamente. Dada esta definición de arquitectura
+ y estilo arquitectónico, no existe una línea divisoria entre el inicio del estilo arquitectónico y la arquitectura. Tenemos un 
+ continuo en el que la arquitectura de una persona puede ser el estilo arquitectónico de otra persona.
+ Si se trata de una arquitectura o un estilo depende en cierto sentido del uso. Por ejemplo, proponemos en la Sección 2.3
+que los estilos arquitectónicos sean utilizados como restricciones en una arquitectura. Dado que queremos que laespecificación
+arquitectónica sea restringida sólo  al nivel deseado por el arquitecto, podría suceder fácilmente que la arquitectura de una 
+persona pudiera ser menos restringida que el estilo arquitectónico de otra persona. Lo importante de un estilo arquitectónico 
+es que encapsula decisiones importantes sobre los elementos  arquitectónicos y hace hincapié en importantes restricciones sobre los
+elementos y sus relaciones. Lo útil del estilo es que podemos   usarlo tanto para restringir la arquitectura como para coordinar a
+los arquitectos colaboradores. Además, el estilo encarna las decisiones que más erosión y deriva. Un énfasis en el estilo como 
+una limitación en la arquitectura proporciona una visibilidad a ciertos aspectos de la arquitectura de modo que las violaciones
+de esos aspectos y la insensibilidad a ellos serán más evidentes.
