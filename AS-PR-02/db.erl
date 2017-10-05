@@ -8,7 +8,7 @@ new()->
 write(Key,Element,DbRef)->
      [{Key,Element} |DbRef].
 
-read(Key,[])->
+read(_,[])->
     {error,instance};
 read(Key,[{Key,E} |_])->
     {ok,E};
