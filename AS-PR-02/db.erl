@@ -1,5 +1,5 @@
 -module(db).
--export([new/0,write/3,read/2,match/2,delete/2]).
+-export([new/0,write/3,read/2,match/2,delete/2,destroy/1]).
 
 new()->
     [].
@@ -9,7 +9,7 @@ write(Key,Element,DbRef)->
      [{Key,Element} |DbRef].
 
 read(Key,[])->
-    {error,Key};
+    {error,instance};
 read(Key,[{Key,E} |_])->
     {ok,E};
 read(Key,[_ |T])->
@@ -32,4 +32,8 @@ delete(Key,[{Key,_} | T],_)->
     T;
 delete(Key,[H| T],R)->
     [H |delete(Key,T,R)].
+
+destroy(_)->
+    ok.
+
 %-----------------------------------------------------------%

@@ -8,7 +8,7 @@ quicksort([H|T])->
 
 longitud([])->
     0;
-longitud([H|T])->
+longitud([_|T])->
     1+longitud(T).
 
 merge(L1,[])->
