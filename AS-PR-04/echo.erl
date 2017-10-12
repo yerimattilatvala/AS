@@ -2,7 +2,8 @@
 -export([start/0,stop/0,print/1,init/0]).
 
 start()->
-    register(echo, spawn(?MODULE,init,[])).
+    register(echo, spawn(?MODULE,init,[])),
+    ok.
 
 init()->
     loop().
@@ -21,10 +22,5 @@ loop()->
         {print,M,From}->
             From ! {echo_reply,M},
             loop();
-        stop->
-            case whereis(echo) of
-                    Pid -> 
-                        exit(Pid, normal),
-                        unregister(echo)
-                    end
+        stop->ok
     end.
