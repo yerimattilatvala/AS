@@ -5,6 +5,7 @@ new()->
     spawn(?MODULE,init,[]).
 
 write(Key,Element,DbRef)->
+    io:format("~w ~w ~n",[self(),DbRef]),
     DbRef ! {write,Key,Element}.
 
 init()->
