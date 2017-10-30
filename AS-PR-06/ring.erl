@@ -4,102 +4,97 @@
 start(NumProcs)->
     register(root,spawn(ring,rootProcess,[NumProcs])).
 
-rootProcess(NumProcs)->
-    Pid = spawn_link(ring,startProcess,[NumProcs,self()]),
-    rootProcess(NumProcs-1,Pid,[Pid]).
-rootProcess(0,ChildPid,L)->
-    io:format("Root Process ~w talk to a Process ~w ~n",[self(),ChildPid]),
-    process_flag(trap_exit, true),
-    rootLoop(L,ChildPid);
-rootProcess(N,ChildPid,L)->
-    Pid = spawn_link(ring,startProcess,[N,ChildPid]),
-    rootProcess(N-1,Pid,[Pid | L]).
-
 msg(MsgNum,Message)->
     root ! {transmite_message, MsgNum, Message}.
 
 stop()->
     root ! stop.
 
+%Devuelve la cantidad de procesos almacenados en
+%la lista de procesos
 numberProcess([])->
     0;
 numberProcess([_| T])->
     1 + numberProcess(T).
 
-
+%Posicion que ocupa en la lista cada PID
+%Comienza en uno
 index(H,[H | _])->
     1;
 index(H,[_|T])->
     1+index(H,T).
 
+%Devuelve el PID asociado a una posicion de la lista
 item([H|_],0)->
     H;
 item([_|T],N)->
     item(T,N-1).
 
-
+%Devuelve el primer PID de la lista
 first([])->
     [];
 first([H|_])->
     H.
 
-rootLoop(ProcessList,ChildPid)->
+rootProcess(NumProcs)->
+    Pid = spawn_link(ring,startProcess,[NumProcs,self()]),
+    rootProcess(NumProcs-1,Pid,[Pid]).
+rootProcess(0,ChildPid,L)->
+    io:format("Root Process ~w create a ~w proces and talk to a Process ~w ~n",[self(),numberProcess(L),ChildPid]),
+    process_flag(trap_exit, true),
+    rootLoop(L,ChildPid,numberProcess(L));
+rootProcess(N,ChildPid,L)->
+    Pid = spawn_link(ring,startProcess,[N,ChildPid]),
+    rootProcess(N-1,Pid,[Pid | L]).
+    
+rootLoop(ProcessList,ChildPid,N)->
     receive
         {0,M}->
             ChildPid ! {0,M},
-            rootLoop(ProcessList,ChildPid);
+            rootLoop(ProcessList,ChildPid,N);
         {MsgNum,Message}->
             ChildPid ! {MsgNum,Message},
-            rootLoop(ProcessList,ChildPid);
+            rootLoop(ProcessList,ChildPid,N);
         {transmite_message, MsgNum, Message}->
             Cicles = MsgNum * numberProcess(ProcessList),
             ChildPid ! {Cicles,Message},
-            rootLoop(ProcessList,ChildPid);
+            rootLoop(ProcessList,ChildPid,N);
         {'EXIT',Pid,_}->
             L = lists:last(ProcessList),
             I = first(ProcessList),
-            if Pid == I ->
-                L2 = lists:delete(Pid,ProcessList),
+            io:format("~w ~w ~n",[I,L]),
+            LAUX = lists:delete(Pid,ProcessList),
+            P = numberProcess(LAUX),
+            if P== 1-> 
                 unlink(Pid),
-                PidN = first(L2),
-                io:format("~w ~n",[PidN]),
-                if PidN == []->
-                    ok;
-                true-> 
-                    PidN ! {root,self()},
-                    rootLoop(L2,PidN)
-                end;
-            true->
-                if Pid == L ->
+                io:format("ONLY ONE PROCESS -> REBOOT WITH ~w PROCESS ~n",[N]),
+                rootProcess(N);
+            true ->
+                if Pid == I ->
                     L2 = lists:delete(Pid,ProcessList),
                     unlink(Pid),
-                    PidN = lists:last(L2),
-                    if PidN == []->
-                        ok;
-                    true-> 
-                        PidN ! {root,self()},
-                        rootLoop(L2,ChildPid)
-                    end;
+                    PidN = first(L2),
+                    rootLoop(L2,PidN,N);
                 true->
-                    Pos = index(Pid,ProcessList),
-                    NextPid = item(ProcessList,Pos),
-                    ChildPid ! {change,Pos-1,NextPid},
-                    unlink(Pid),
-                    rootLoop(lists:delete(Pid,ProcessList),ChildPid)
+                    if Pid == L ->
+                        L2 = lists:delete(Pid,ProcessList),
+                        unlink(Pid),
+                        PidN = lists:last(L2),
+                        PidN ! {root,self()},
+                        rootLoop(L2,ChildPid,N);
+                    true->
+                        Pos = index(Pid,ProcessList),
+                        NextPid = item(ProcessList,Pos),
+                        ChildPid ! {change,NextPid},
+                        unlink(Pid),
+                        rootLoop(lists:delete(Pid,ProcessList),ChildPid,N)
+                    end
                 end
             end;
         stop->  
             ChildPid ! stop,
             unregister(root),
             io:format("Root Process finishing ~w ~n",[self()])
-        after 100->
-            N = numberProcess(ProcessList),
-            if N == 1 ->
-                io:format("Only have one process.END ~n"),
-                ok;
-            true->
-                rootLoop(ProcessList,ChildPid)
-            end
     end.
 
 startProcess(N,Pid)->
@@ -112,9 +107,9 @@ slaveLoop(ChildPid,N)->
             ChildPid ! stop,
             io:format("Slave Process ~w  is finishing with PID ~w ~n",[N,self()]);
         {0,_}->
-            io:format("Finish ~n"),
+            io:format("Finish cicles~n"),
             slaveLoop(ChildPid,N);
-        {change,N,Pid}->
+        {change,Pid}->
             slaveLoop(Pid,N);
         {root,From}->
             slaveLoop(From,N);
