@@ -93,8 +93,8 @@ rootLoop(ProcessList,ChildPid,N)->
             end;
         stop->  
             ChildPid ! stop,
-            unregister(root),
-            io:format("Root Process finishing ~w ~n",[self()])
+            io:format("Root Process finishing ~w ~n",[self()]),
+            unregister(root)
     end.
 
 startProcess(N,Pid)->
@@ -114,7 +114,6 @@ slaveLoop(ChildPid,N)->
         {root,From}->
             slaveLoop(From,N);
         {MsgNum,Message}->
-            io:format("Slave Process ~w with PID ~w send ~w to  ~w ~n",[N,self(),Message,ChildPid]),
             ChildPid ! {MsgNum-1,Message},
             slaveLoop(ChildPid,N)
     end.
