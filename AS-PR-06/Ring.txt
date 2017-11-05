@@ -1,0 +1,4 @@
+Ao executar os tests, a primeira vez produce erro debido a que, ainda que se filtran as mensaxes
+dos procesos que nos interesan mediante unha lista, ao iniciar o tracer aparecen unhas mensaxes
+do módulo timer utilizado para que ao proceso que executa tracer teña tempo para capturar as 
+trazas.

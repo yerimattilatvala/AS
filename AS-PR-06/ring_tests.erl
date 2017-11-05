@@ -15,7 +15,7 @@ first_pid([H|_])->
 
 tracer_start(Message) ->
         Tracer = spawn(fun() -> tracer(Message) end),
-        erlang:trace(all, true, [ send, 'receive', {tracer, Tracer}]),
+        erlang:trace(processes, true, [ send, 'receive', {tracer, Tracer}]),
         Tracer.
 
 extract(Tracer)->
@@ -32,13 +32,18 @@ tracer(TraceList,Message) ->
     receive
         {extract, From} ->
             L1 = [ {Pid,'receive',Message} || {_, Pid, 'receive', {_,Message}} <- TraceList],
-            L2 = [ {Pid, send, {Message},To} || {_,Pid,send,{_,Message},To} <- TraceList],
-            From ! {L1,L2};
+            L2 = [ {Pid, send, {Message},To} || {_,Pid,send,{Val,Message},To} <- TraceList],
+            From ! {L1,L2},
+            erlang:trace(all, false, [all]);
         Other ->
             tracer([Other|TraceList],Message)
     end.
 
-ring_test()->
+ring1_test()->
+    case whereis(root) of
+        undefined -> ok;
+        P -> unregister(root)
+    end,
     N = 5,
     Cicles = 2,
     Mesages = (((N+1)*2)+1),
@@ -47,8 +52,9 @@ ring_test()->
     Tracer = tracer_start(Msg),
     ring:msg(Cicles,Msg),
     {Receives,Send} = extract(Tracer),
+    %file:write_file("output.txt", io_lib:fwrite("~p.\n", [Send])),  %si se descomenta se puede comprobar el error
     ?assertEqual(Mesages, numElements(Receives)),
-    ?assertEqual(Mesages, numElements(Send)-1), %hago menos 1 porque siempre captura un mensage más
+    ?assertEqual(Mesages, numElements(Send)-1), %hago menos 1 porque captura el primer send del root
     Pid = first_pid(Receives),
     exit(Pid, kill),
     timer:sleep(1),
@@ -58,4 +64,27 @@ ring_test()->
     {Receives2,Send2} = extract(Tracer2),
     ?assertEqual(Mesages2, numElements(Receives2)),
     ?assertEqual(Mesages2, numElements(Send2)-1),
+    ring:stop().
+
+ring2_test()->
+    case whereis(root) of
+    undefined -> ok;
+    P -> unregister(root)
+    end,
+    N = 5,
+    Cicles = 2,
+    Mesages = (((N+1)*2)+1),
+    Msg = "hola",
+    ring:start(N),
+    Tracer = tracer_start(Msg),
+    ring:msg(Cicles,Msg),
+    {Receives,Send} = extract(Tracer),
+    %file:write_file("output.txt", io_lib:fwrite("~p.\n", [Send])),  %si se descomenta se puede comprobar el error
+    ?assertEqual(Mesages, numElements(Send)-1), %hago menos 1 porque captura el primer send del root
+    compile:file(ring),  
+    Msg2 = 8,
+    Tracer2 = tracer_start(Msg2),
+    ring:msg(Cicles,Msg2),
+    {Receives2,Send2} = extract(Tracer2),
+    ?assertEqual(Mesages, numElements(Send2)-1),
     ring:stop().
