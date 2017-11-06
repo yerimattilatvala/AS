@@ -1,6 +1,7 @@
 -module(ring).
 -export([start/1,rootProcess/1,startProcess/2,msg/2,stop/0]).
 
+%Crea el proceso que se encarga de crear los demás.
 start(NumProcs)->
     register(root,spawn(ring,rootProcess,[NumProcs])).
 
@@ -36,6 +37,7 @@ first([])->
 first([H|_])->
     H.
 
+% Función donde el proceso con alias "root" crea los N procesos.
 rootProcess(NumProcs)->
     Pid = spawn_link(ring,startProcess,[NumProcs,self()]),
     rootProcess(NumProcs-1,Pid,[Pid]).
@@ -49,45 +51,44 @@ rootProcess(N,ChildPid,L)->
     
 rootLoop(ProcessList,ChildPid,N)->
     receive
-        {0,M}->
-            ChildPid ! {0,M},
+        {0,M}->                                             % Cuando el root recibe 0,significa que ya se han dado N vueltas
+            ChildPid ! {0,M},                               % al anillo, y se lo envia al primer proceso.
             rootLoop(ProcessList,ChildPid,N);
         {MsgNum,Message}->
             ChildPid ! {MsgNum,Message},
             rootLoop(ProcessList,ChildPid,N);
         {transmite_message, MsgNum, Message}->
-            Cicles = MsgNum * numberProcess(ProcessList),
-            ChildPid ! {Cicles,Message},
+            Cicles = MsgNum * numberProcess(ProcessList),   % Aquí se calculan el numero de envios necesarios 
+            ChildPid ! {Cicles,Message},                    % para dar las vueltas necesarias al anillo
             rootLoop(ProcessList,ChildPid,N);
-        {'EXIT',Pid,_}->
-            L = lists:last(ProcessList),
-            I = first(ProcessList),
-            io:format("~w ~w ~n",[I,L]),
-            LAUX = lists:delete(Pid,ProcessList),
-            P = numberProcess(LAUX),
-            if P== 1-> 
+        {'EXIT',Pid,_}->                                    % Si algún proceso termina abruptamente.
+            L = lists:last(ProcessList),                    % Miramos cual es el primer y ultimo proceso de la lista 
+            I = first(ProcessList),                         % para reenlazar los procesos de una manera determinada
+            LAUX = lists:delete(Pid,ProcessList),           % También miramos cuantos procesos quedan en la           
+            P = numberProcess(LAUX),                        % lista y si al eliminar ese proceso solo queda un proceso
+            if P== 1->                                      % reiniciamos el anillo.
                 unlink(Pid),
                 io:format("ONLY ONE PROCESS -> REBOOT WITH ~w PROCESS ~n",[N]),
                 rootProcess(N);
-            true ->
+            true ->                                         % Si quedan más de uno y el proceso a eliminar es el primero:  
                 if Pid == I ->
-                    L2 = lists:delete(Pid,ProcessList),
+                    L2 = lists:delete(Pid,ProcessList),     % Se elimina de la lista y se deslinka.  
                     unlink(Pid),
-                    PidN = first(L2),
-                    rootLoop(L2,PidN,N);
+                    PidN = first(L2),                       % Se busca el primer proceso de la lista y se pasa su pid al 
+                    rootLoop(L2,PidN,N);                    % root para que pueda enviar las peticiones al anillo.
                 true->
-                    if Pid == L ->
-                        L2 = lists:delete(Pid,ProcessList),
+                    if Pid == L ->                          % Si es el último:
+                        L2 = lists:delete(Pid,ProcessList), % Se elimina de la lista y se deslinka.  
                         unlink(Pid),
-                        PidN = lists:last(L2),
-                        PidN ! {root,self()},
+                        PidN = lists:last(L2),              % Se busca el ultimo proceso de la lista y se le pasa el pid 
+                        PidN ! {root,self()},               % del root para que este siga sincronizado con el anillo.
                         rootLoop(L2,ChildPid,N);
-                    true->
-                        Pos = index(Pid,ProcessList),
-                        NextPid = item(ProcessList,Pos),
-                        ChildPid ! {change,NextPid},
-                        unlink(Pid),
-                        rootLoop(lists:delete(Pid,ProcessList),ChildPid,N)
+                    true->                                  % Si es uno del medio:
+                        Pos = index(Pid,ProcessList),       % Se busca en la lista la posición que ocupa y se le suma uno a la 
+                        NextPid = item(ProcessList,Pos),    % posición obtenida para conocer el pid del siguiente al que se va 
+                        ChildPid ! {change,NextPid},        % eliminar, por último se le envía ese pid as proceso anterior al que
+                        unlink(Pid),                        % ha terminado.
+                        rootLoop(lists:delete(Pid,ProcessList),ChildPid,N) % Se elimina el proceso de la lista.
                     end
                 end
             end;

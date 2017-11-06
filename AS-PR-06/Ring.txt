@@ -1,4 +1,5 @@
-Ao executar os tests, a primeira vez produce erro debido a que, ainda que se filtran as mensaxes
-dos procesos que nos interesan mediante unha lista, ao iniciar o tracer aparecen unhas mensaxes
+Ao executar os tests, a primeira vez producía erro debido a que, ainda que se filtraban as mensaxes
+dos procesos que nos interesan mediante unha lista, ao extraer as trazas aparecían unhas mensaxes
 do módulo timer utilizado para que ao proceso que executa tracer teña tempo para capturar as 
-trazas.
+trazas. Esto solucionouse facendo timer:sleep(1) ao comezo do primer test, xa que notei que esas
+mensaxes so aprecían a primeira vez que executabas unha función do módulo timer.
